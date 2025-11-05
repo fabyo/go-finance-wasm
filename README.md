@@ -145,12 +145,10 @@ go build -o main.wasm main.go
 ```
 
 Depois de gerar o `main.wasm`, volte o ambiente ao normal (ou abra um novo terminal) para rodar o servidor.
-se quiser continuar no mesmo terminal rode:
-**Remove-Item Env:GOOS**
-**Remove-Item Env:GOARCH**
-**go env GOOS**
-**go env GOARCH**
-tem que aparecer : windows e amd64
+- **Remove-Item Env:GOOS**
+- **Remove-Item Env:GOARCH**
+- **go env GOOS**
+- **go env GOARCH**
 
 ---
 
