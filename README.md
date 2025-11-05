@@ -12,7 +12,7 @@ Simulador de **financiamento imobiliário** onde:
 - O código roda **direto no navegador**, sem backend
 
 O servidor em Go (`server.go`) serve apenas os arquivos estáticos (`index.html`, `main.wasm`, `wasm_exec.js`).  
-Toda a matemática roda no **front-end**, via WASM.
+Toda a matemática roda no **front-end**, via **WASM**.
 
 ---
 
