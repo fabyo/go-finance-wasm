@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Simulador de Financiamento - Go + WebAssembly</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; max-width: 600px; }
+    label { display: block; margin-top: 10px; }
+    input { padding: 5px; width: 100%; max-width: 300px; }
+    button { margin-top: 15px; padding: 8px 12px; cursor: pointer; }
+    .result { margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+    .error { color: red; margin-top: 10px; }
+.form-table {
+  border-collapse: collapse;
+}
+
+.form-table td {
+  padding: 4px 8px;
+}
+
+.form-table input {
+  width: 100%;
+  max-width: 220px;
+  box-sizing: border-box;
+}
+	
+  </style>
+</head>
+<body>
+  <h1>Simulador de Financiamento (Go + WebAssembly)</h1>
+
+  <p>Exemplo: Valor do imóvel 300.000, entrada 30.000, juros 11% ao ano, prazo 360 meses.</p>
+
+	<table class="form-table">
+	  <tr>
+		<td><label for="property">Valor do imóvel:</label></td>
+		<td>
+		  <input type="number" id="property" value="300000" step="1000">
+		</td>
+	  </tr>
+
+	  <tr>
+		<td><label for="down">Entrada:</label></td>
+		<td>
+		  <input type="number" id="down" value="30000" step="1000">
+		</td>
+	  </tr>
+
+	  <tr>
+		<td><label for="annual">Juros ao ano (%):</label></td>
+		<td>
+		  <input type="number" id="annual" value="11" step="0.1">
+		</td>
+	  </tr>
+
+	  <tr>
+		<td><label for="months">Prazo (meses):</label></td>
+		<td>
+		  <input type="number" id="months" value="360" step="12">
+		</td>
+	  </tr>
+	</table>
+
+
+  <button id="simulateBtn">Simular</button>
+
+  <div class="error" id="error"></div>
+
+  <div class="result" id="result" style="display:none;">
+    <h2>Resultado</h2>
+    <p><strong>Valor financiado:</strong> R$ <span id="principal"></span></p>
+    <p><strong>Parcela mensal:</strong> R$ <span id="monthlyPayment"></span></p>
+    <p><strong>Total pago:</strong> R$ <span id="totalPaid"></span></p>
+    <p><strong>Total de juros:</strong> R$ <span id="totalInterest"></span></p>
+  </div>
+
+  <!-- runtime WASM do Go -->
+  <script src="wasm_exec.js"></script>
+  <script>
+  const go = new Go(); // vem do wasm_exec.js
+
+  async function loadWasm() {
+    const resp = await WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject);
+    go.run(resp.instance);
+    console.log("Go WASM carregado!");
+  }
+
+  function formatMoney(v) {
+    return v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function simulate() {
+    const property = parseFloat(document.getElementById("property").value);
+    const down     = parseFloat(document.getElementById("down").value);
+    const annual   = parseFloat(document.getElementById("annual").value);
+    const months   = parseInt(document.getElementById("months").value, 10);
+
+    const errorEl  = document.getElementById("error");
+    const resultEl = document.getElementById("result");
+
+    errorEl.textContent = "";
+    resultEl.style.display = "none";
+
+    console.log("Valores lidos:", { property, down, annual, months });
+
+    if (
+      isNaN(property) ||
+      isNaN(down) ||
+      isNaN(annual) ||
+      isNaN(months)
+    ) {
+      errorEl.textContent = "Preencha todos os campos com valores numéricos válidos.";
+      return;
+    }
+
+    if (!window.calcFinance) {
+      errorEl.textContent = "WASM ainda não carregou.";
+      return;
+    }
+
+    const res = window.calcFinance(property, down, annual, months);
+
+    console.log("Resultado do Go:", res);
+
+    if (res.error) {
+      errorEl.textContent = res.error;
+      return;
+    }
+
+    document.getElementById("principal").textContent      = formatMoney(res.principal);
+    document.getElementById("monthlyPayment").textContent = formatMoney(res.monthlyPayment);
+    document.getElementById("totalPaid").textContent      = formatMoney(res.totalPaid);
+    document.getElementById("totalInterest").textContent  = formatMoney(res.totalInterest);
+
+    resultEl.style.display = "block";
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("simulateBtn").addEventListener("click", simulate);
+    loadWasm();
+  });
+</script>
+
+</body>
+</html>
