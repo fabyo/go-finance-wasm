@@ -1,4 +1,4 @@
-# go-finance-wasm 🧮
+# Go Finance WASM 🧮
 
 ![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?style=for-the-badge&logo=go&logoColor=white)
 ![WASM](https://img.shields.io/badge/WebAssembly-running%20Go%20in%20browser-purple?style=for-the-badge)
