@@ -4,6 +4,8 @@
 ![WASM](https://img.shields.io/badge/WebAssembly-running%20Go%20in%20browser-purple?style=for-the-badge)
 ![Status](https://img.shields.io/badge/status-experimental-orange?style=for-the-badge)
 
+<img src="go-wasm.png" alt="Golang" width="200" />
+
 Simulador de **financiamento imobiliário** onde:
 
 - O **cálculo financeiro** (Tabela Price) é feito em **Go**  
