@@ -204,7 +204,7 @@ Nenhum cálculo financeiro é feito no **backend**.
 go-finance-wasm/
 ├── go.mod
 ├── main.go       # código Go que vira WebAssembly
-├── main.wasm     # build gerado (não precisa versionar se não quiser)
+├── main.wasm     # build gerado
 ├── wasm_exec.js  # runtime Go para WASM
 ├── index.html    # front-end do simulador
 └── server.go     # servidor HTTP em Go (porta 9000)
