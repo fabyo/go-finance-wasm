@@ -1,6 +1,5 @@
-# Go Finance WASM 🧮
+#  <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white" alt="Go"/> Go Finance WASM 🧮
 
-![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?style=for-the-badge&logo=go&logoColor=white)
 ![WASM](https://img.shields.io/badge/WebAssembly-running%20Go%20in%20browser-purple?style=for-the-badge)
 ![Status](https://img.shields.io/badge/status-experimental-orange?style=for-the-badge)
 
