@@ -60,7 +60,7 @@ Se `i = 0`, cai no caso simples: `P / n`.
   Esse arquivo é carregado no navegador e executado pelo runtime do Go.
 
 - `wasm_exec.js`  
-  Runtime oficial do Go para WebAssembly (vem do próprio Go em `GOROOT/misc/wasm/wasm_exec.js`).
+  Runtime oficial do Go para WebAssembly (vem do próprio Go em `GOROOT/lib/wasm/wasm_exec.js`).
 
 - `index.html`  
   Front-end simples:
@@ -145,6 +145,12 @@ go build -o main.wasm main.go
 ```
 
 Depois de gerar o `main.wasm`, volte o ambiente ao normal (ou abra um novo terminal) para rodar o servidor.
+se quiser continuar no mesmo terminal rode:
+**Remove-Item Env:GOOS**
+**Remove-Item Env:GOARCH**
+**go env GOOS**
+**go env GOARCH**
+tem que aparecer : windows e amd64
 
 ---
 
@@ -188,7 +194,7 @@ O fluxo será:
 3. A função é executada em Go (rodando dentro do navegador via WebAssembly)
 4. JS exibe os resultados na tela
 
-Nenhum cálculo financeiro é feito no backend.
+Nenhum cálculo financeiro é feito no **backend**.
 
 ---
 
@@ -203,40 +209,13 @@ go-finance-wasm/
 ├── index.html    # front-end do simulador
 └── server.go     # servidor HTTP em Go (porta 9000)
 ```
-
-Se quiser, você pode adicionar um `.gitignore` para não versionar o `main.wasm`:
-
-```gitignore
-main.wasm
-```
-
 ---
 
 ## 🔐 Observações
 
-- Toda a lógica de financiamento roda **no client**, via WebAssembly:
-  - Privacidade maior (os dados não precisam sair da máquina do usuário)
-  - Útil como demo de “Go no front-end”
+- Toda a lógica de financiamento roda **no client**, via **WebAssembly**:
+  - Útil como demo de **“Go no front-end”**
 - O servidor Go (`server.go`) é apenas estático:
   - Não processa formulário
   - Não faz cálculo
   - Só entrega os arquivos (`index.html`, `.wasm`, `.js`)
-
----
-
-## 💡 Próximas ideias
-
-- Gerar **tabela de amortização** (mês a mês: juros, amortização, saldo)
-- Exportar CSV / JSON com o fluxo do financiamento
-- Adicionar gráfico com evolução do saldo devedor
-- Comparar cenários:
-  - Juros diferentes
-  - Prazos diferentes
-  - Mais entrada vs menos entrada
-- Internacionalização (multi-idioma)
-
----
-
-## 📜 Licença
-
-Adicione aqui a licença desejada (MIT, Apache 2.0, etc.), conforme você preferir.
